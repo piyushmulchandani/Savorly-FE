@@ -1,0 +1,175 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F4F1DE; /* Fondo beige claro */
+    color: #3D405B; /* Texto azul oscuro */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Títulos */
+  h1, h2, h3 {
+    color: #FF6F61; /* Coral */
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  /* Botones */
+  button {
+    background-color: #FF6F61; /* Coral */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #FFD166; /* Amarillo dorado al pasar el mouse */
+  }
+  
+  /* Campos de entrada */
+  input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #FF6F61; /* Borde coral */
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #FFD166; /* Borde amarillo dorado al enfocar */
+  }
+  
+  /* Mensajes de respuesta */
+  .message {
+    font-size: 1.2rem;
+    color: #3D405B; /* Texto azul oscuro */
+    margin-top: 20px;
+  }
+  
+  /* Tarjetas (si las usas) */
+  .card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Enlaces */
+  a {
+    color: #FF6F61; /* Coral */
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #FFD166; /* Amarillo dorado al pasar el mouse */
+  }
+  
+  /* Barra de navegación (si la usas) */
+  .navbar {
+    background-color: #FF6F61; /* Coral */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar a {
+    color: white;
+    margin: 0 10px;
+  }
+  
+  .navbar a:hover {
+    color: #FFD166; /* Amarillo dorado al pasar el mouse */
+  }
+  
+  /* Pie de página (si lo usas) */
+  .footer {
+    background-color: #3D405B; /* Azul oscuro */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  .footer a {
+    color: #FF6F61; /* Coral */
+  }
+  
+  .footer a:hover {
+    color: #FFD166; /* Amarillo dorado al pasar el mouse */
+  }
+
+  .pill-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    --pill-accent: var(--bright-blue);
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+    color: var(--pill-accent);
+    padding-inline: 0.75rem;
+    padding-block: 0.375rem;
+    border-radius: 2.75rem;
+    border: 0;
+    transition: background 0.3s ease;
+    font-family: var(--inter-font);
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.4rem;
+    letter-spacing: -0.00875rem;
+    text-decoration: none;
+  }
+
+  .pill-group .pill:nth-child(6n + 1) {
+    --pill-accent: var(--bright-blue);
+  }
+  .pill-group .pill:nth-child(6n + 2) {
+    --pill-accent: var(--french-violet);
+  }
+  .pill-group .pill:nth-child(6n + 3),
+  .pill-group .pill:nth-child(6n + 4),
+  .pill-group .pill:nth-child(6n + 5) {
+    --pill-accent: var(--hot-red);
+  }
+
+  .pill-group svg {
+    margin-inline-start: 0.25rem;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
