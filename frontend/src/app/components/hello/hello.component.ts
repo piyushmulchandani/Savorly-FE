@@ -3,10 +3,12 @@ import { HelloService } from '../../services/hello.service';
 import { FormsModule } from '@angular/forms'; 
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../shared/material.module';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-hello',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, MaterialModule, NgIf],
   templateUrl: './hello.component.html',
   styleUrl: './hello.component.css',
   encapsulation: ViewEncapsulation.None
@@ -14,6 +16,7 @@ import { RouterModule } from '@angular/router';
 export class HelloComponent {
   name: string = "Piyush";
   message: string = '';
+  openingTime: any;
 
   constructor(private helloService: HelloService, private authService: AuthService) { }
 

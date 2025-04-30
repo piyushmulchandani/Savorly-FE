@@ -1,10 +1,71 @@
 <div class="container">
-    <div class="card">
-      <input [(ngModel)]="name" placeholder="Insert your name" />
-      <button (click)="getMessage()">Hello!</button>
-      <div class="message">{{ message }}</div>
-      <button (click)="logout()">Logout</button>
-    </div>
-  </div>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Welcome to My App</mat-card-title>
+      <mat-card-subtitle>Please introduce yourself</mat-card-subtitle>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Your name</mat-label>
+        <input matInput [(ngModel)]="name" placeholder="Insert your name">
+        <mat-hint>Enter your full name</mat-hint>
+      </mat-form-field>
+  
+      <div class="button-row">
+        <button mat-raised-button color="primary" (click)="getMessage()">
+          <mat-icon>waving_hand</mat-icon> Hello!
+        </button>
+        
+        <button mat-stroked-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon> Logout
+        </button>
+      </div>
+  
+      <mat-divider></mat-divider>
+  
+      <mat-expansion-panel *ngIf="message" class="message-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Your Message</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>{{ message }}</p>
+      </mat-expansion-panel>
+  
+      <mat-chip-listbox *ngIf="name" aria-label="Name selection">
+        <mat-chip color="primary" selected>
+          {{ name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-listbox>
+    </mat-card-content>
+
+    <mat-form-field>
+      <mat-label>Opening Time</mat-label>
+      <input matInput type="time" [(ngModel)]="openingTime">
+    </mat-form-field>
+  </mat-card>
+
+    <!-- Button variants -->
+<button mat-button>Basic</button>
+<button mat-raised-button>Raised</button>
+<button mat-flat-button>Flat</button>
+<button mat-stroked-button>Stroked</button>
+
+<!-- Input field -->
+<mat-form-field appearance="fill">
+  <mat-label>Name</mat-label>
+  <input matInput placeholder="Enter your name">
+</mat-form-field>
+
+<!-- Card -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Title</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    Content goes here
+  </mat-card-content>
+</mat-card>
+</div>
 
   <router-outlet></router-outlet>
