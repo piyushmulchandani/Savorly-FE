@@ -1,0 +1,32 @@
+.restaurants-container {
+    padding: 20px;
+  }
+  
+  .restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .restaurant-card {
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  
+    mat-card-header {
+      padding-bottom: 0;
+    }
+  
+    mat-card-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }

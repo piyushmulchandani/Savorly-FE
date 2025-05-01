@@ -4,13 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../shared/material.module';
-import { NgIf } from '@angular/common';
+import { CommonDirectivesModule } from '../../shared/commonDirectives.module';
 
 @Component({
   selector: 'app-hello',
-  imports: [FormsModule, RouterModule, MaterialModule, NgIf],
+  imports: [FormsModule, RouterModule, MaterialModule, CommonDirectivesModule],
   templateUrl: './hello.component.html',
-  styleUrl: './hello.component.css',
   encapsulation: ViewEncapsulation.None
 })
 export class HelloComponent {

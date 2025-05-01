@@ -1,0 +1,62 @@
+<div class="sidebar-container">
+    <!-- Collapsed State Toggle Button (always visible) -->
+    <button *ngIf="isCollapsed" 
+            mat-icon-button 
+            class="collapse-toggle"
+            (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-sidenav-container class="sidebar-container">
+        <mat-sidenav #sidenav 
+                    [mode]="'side'" 
+                    [opened]="!isCollapsed"
+                    class="app-sidenav">
+        
+            <div class="sidebar-header">
+                <button mat-icon-button color="primary" (click)="toggleSidebar()">
+                <mat-icon>{{ isCollapsed ? 'menu' : 'chevron_left' }}</mat-icon>
+                </button>
+                <h2 *ngIf="!isCollapsed" class="sidebar-title">Savorly</h2>
+            </div>
+        
+            <mat-nav-list>
+                <!-- For Everyone -->
+                <a mat-list-item routerLink="/restaurants" routerLinkActive="active">
+                <mat-icon>restaurant</mat-icon>
+                <span *ngIf="!isCollapsed">Restaurants</span>
+                </a>
+        
+                <a mat-list-item routerLink="/my-reservations" routerLinkActive="active">
+                <mat-icon>bookmark</mat-icon>
+                <span *ngIf="!isCollapsed">My Reservations</span>
+                </a>
+        
+                <!-- For Restaurant Staff and Admins -->
+                <ng-container *ngIf="hasRole(Role.RESTAURANT_WORKER) || hasRole(Role.RESTAURANT_ADMIN) || hasRole(Role.ADMIN)">
+                <a mat-list-item routerLink="/my-restaurant" routerLinkActive="active">
+                    <mat-icon>business</mat-icon>
+                    <span *ngIf="!isCollapsed">My Restaurant</span>
+                </a>
+                </ng-container>
+        
+                <!-- Admin Only Sections -->
+                <ng-container *ngIf="hasRole(Role.ADMIN)">
+                <a mat-list-item routerLink="/users" routerLinkActive="active">
+                    <mat-icon>people</mat-icon>
+                    <span *ngIf="!isCollapsed">Users</span>
+                </a>
+        
+                <a mat-list-item routerLink="/hello" routerLinkActive="active">
+                    <mat-icon>admin_panel_settings</mat-icon>
+                    <span *ngIf="!isCollapsed">Hello</span>
+                </a>
+                </ng-container>
+            </mat-nav-list>
+        </mat-sidenav>
+  
+        <mat-sidenav-content>
+        <ng-content></ng-content>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -88,6 +88,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // ★ Stepper: <mat-horizontal-stepper> for multi-step forms
 import { MatStepperModule } from '@angular/material/stepper';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 @NgModule({
   exports: [
     // Core components
@@ -105,6 +107,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatDividerModule,
     MatExpansionModule,
     MatChipsModule,
+    MatSidenavModule,
     
     // Restaurant-specific additions
     MatDatepickerModule,
