@@ -1,1 +1,130 @@
-<p>restaurants works!</p>
+<div class="restaurants-page">
+	<!-- Filter Section -->
+	<mat-card class="filters-card">
+		<mat-card-header>
+			<mat-card-title>Search Restaurants</mat-card-title>
+		</mat-card-header>
+
+		<mat-card-content>
+			<!-- Reservation Filter Toggle -->
+			<mat-expansion-panel class="reservation-filter" (opened)="reservationFilterOpen = true" (closed)="reservationFilterOpen = false">
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<mat-icon>event_available</mat-icon>
+						<span>Reservation Options</span>
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+
+				<div class="reservation-fields">
+					<!-- Date Picker -->
+					<mat-form-field appearance="outline">
+						<mat-label>Date</mat-label>
+						<input matInput [matDatepicker]="picker" [(ngModel)]="filters.date" [min]="minDate" />
+						<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
+					</mat-form-field>
+
+					<!-- Time Selector -->
+					<mat-form-field appearance="outline">
+						<mat-label>Time</mat-label>
+						<mat-select [(ngModel)]="filters.time">
+							<mat-option *ngFor="let time of availableTimes" [value]="time">
+								{{ time }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+
+					<!-- Number of People -->
+					<mat-form-field appearance="outline">
+						<mat-label>Number of People</mat-label>
+						<input matInput type="number" min="1" [(ngModel)]="filters.numPeople" />
+						<mat-icon matSuffix>people</mat-icon>
+					</mat-form-field>
+				</div>
+			</mat-expansion-panel>
+
+			<div class="filter-row">
+				<mat-form-field appearance="outline">
+					<mat-label>Name</mat-label>
+					<input matInput [(ngModel)]="filters.name" (ngModelChange)="onFilterChange()" />
+				</mat-form-field>
+
+				<div class="filter-row" *ngIf="hasRole(Role.ADMIN)">
+					<mat-form-field appearance="outline">
+						<mat-label>Status</mat-label>
+						<mat-select [(ngModel)]="filters.status" (ngModelChange)="onFilterChange()">
+							<mat-option *ngFor="let status of statusOptions" [value]="status">
+								{{ status }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="filter-row" *ngIf="!hasRole(Role.ADMIN)">
+					<mat-form-field appearance="outline">
+						<mat-label>Status</mat-label>
+						<input matInput [value]="'PUBLIC'" disabled />
+						<mat-icon matSuffix>lock</mat-icon>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="filter-row">
+				<mat-form-field appearance="outline">
+					<mat-label>Cuisine Type</mat-label>
+					<mat-select [(ngModel)]="filters.cuisineType" (ngModelChange)="onFilterChange()">
+						<mat-option>All</mat-option>
+						<mat-option *ngFor="let cuisine of cuisineOptions" [value]="cuisine">
+							{{ cuisine }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline">
+					<mat-label>City</mat-label>
+					<mat-select [(ngModel)]="filters.city" (ngModelChange)="onFilterChange()">
+						<mat-option>All</mat-option>
+						<mat-option *ngFor="let city of cityOptions" [value]="city">
+							{{ city }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<div class="filter-actions">
+					<button mat-raised-button color="primary" (click)="loadRestaurants()" class="wide-btn"><mat-icon>search</mat-icon> Search</button>
+					<button mat-button (click)="resetFilters()" class="wide-btn"><mat-icon>clear</mat-icon> Reset</button>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
+
+	<!-- Results Section -->
+	<div *ngIf="isLoading" class="loading-spinner">
+		<mat-spinner></mat-spinner>
+	</div>
+
+	<div *ngIf="!isLoading && restaurants.length === 0" class="no-results">
+		<mat-icon>search_off</mat-icon>
+		<p>No restaurants found matching your criteria</p>
+	</div>
+
+	<div class="restaurants-grid">
+		<mat-card *ngFor="let restaurant of restaurants" class="restaurant-card">
+			<img mat-card-image [src]="restaurant.imageUrl || 'assets/default-restaurant.jpg'" [alt]="restaurant.name" />
+			<mat-card-header>
+				<mat-card-title>{{ restaurant.name }}</mat-card-title>
+				<mat-card-subtitle>
+					<span class="cuisine-badge">{{ restaurant.cuisineType }}</span>
+					<span class="city-badge">
+						<mat-icon>location_on</mat-icon>
+						{{ restaurant.city }}
+					</span>
+				</mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-actions>
+				<button mat-button color="primary" [routerLink]="['/restaurants', restaurant.id]">View Details</button>
+				<button mat-button color="accent">Make Reservation</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
+</div>

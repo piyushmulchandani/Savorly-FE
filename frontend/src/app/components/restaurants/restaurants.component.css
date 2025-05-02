@@ -1,32 +1,192 @@
-.restaurants-container {
-    padding: 20px;
-  }
-  
-  .restaurants-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .restaurant-card {
-    transition: transform 0.3s ease;
-  
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-  
-    mat-card-header {
-      padding-bottom: 0;
-    }
-  
-    mat-card-actions {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
+.filters-card {
+	margin-bottom: 16px;
+	padding: 12px;
+}
+
+.filter-row {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 0px;
+}
+
+.filter-row mat-form-field {
+	flex: 1;
+
+	.mat-form-field-wrapper {
+		padding-bottom: 0.5em;
+	}
+
+	.mat-form-field-infix {
+		padding: 0.5em 0;
+		border-top: 0.5em solid transparent;
+	}
+
+	.mat-form-field-label-wrapper {
+		top: -1.4em;
+	}
+
+	.mat-form-field-appearance-outline .mat-form-field-flex {
+		padding: 0 0.75em;
+	}
+}
+
+mat-form-field {
+	&.mat-form-field-appearance-outline {
+		--mat-form-field-container-height: 45px;
+		--mat-form-field-container-vertical-padding: 8px;
+
+		.mat-form-field-wrapper {
+			padding-bottom: 0.25em;
+		}
+
+		.mat-form-field-flex {
+			height: 40px;
+			align-items: center;
+		}
+
+		.mat-form-field-infix {
+			padding: 0.5em 0;
+			border-top: 0.5em solid transparent;
+		}
+
+		.mat-form-field-label {
+			transform: translateY(-1.1em) scale(0.85);
+		}
+
+		input.mat-input-element,
+		.mat-select-value {
+			font-size: 13px;
+			line-height: 1.2;
+		}
+	}
+}
+
+.filter-actions {
+	display: flex;
+	gap: 8px;
+
+	.wide-btn {
+		min-width: 200px;
+		padding: 0 16px;
+
+		width: 120px;
+		justify-content: center;
+
+		mat-icon {
+			margin-right: 4px;
+		}
+	}
+}
+
+.restaurants-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 20px;
+}
+
+.restaurant-card {
+	transition: transform 0.3s ease;
+}
+
+.restaurant-card:hover {
+	transform: translateY(-5px);
+}
+
+.cuisine-badge {
+	background: #e3f2fd;
+	padding: 2px 8px;
+	border-radius: 16px;
+	font-size: 1em;
+	margin-right: 8px;
+}
+
+.city-badge {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 8px;
+	font-size: 1.2em;
+}
+
+.city-badge mat-icon {
+	font-size: 16px;
+	height: 16px;
+	width: 16px;
+	margin-right: 4px;
+}
+
+.loading-spinner {
+	display: flex;
+	justify-content: center;
+	padding: 40px;
+}
+
+.no-results {
+	text-align: center;
+	padding: 40px;
+	color: rgba(0, 0, 0, 0.54);
+}
+
+.no-results mat-icon {
+	font-size: 48px;
+	height: 48px;
+	width: 48px;
+	margin-bottom: 16px;
+}
+
+.reservation-filter {
+	padding-bottom: 0px;
+	margin-bottom: 16px;
+	border-left: 4px solid #0078d4;
+
+	.mat-expansion-panel-header {
+		padding: 0 16px;
+
+		mat-icon {
+			margin-right: 8px;
+			color: #0078d4;
+		}
+	}
+
+	.reservation-fields {
+		display: flex;
+		gap: 16px;
+		flex-wrap: wrap;
+
+		mat-form-field {
+			flex: 1;
+			min-width: 120px;
+
+			&:first-child {
+				flex: 2;
+			}
+		}
+
+		@media (max-width: 600px) {
+			flex-direction: column;
+
+			mat-form-field {
+				width: 100%;
+			}
+		}
+	}
+}
+
+.filters-card {
+	padding-bottom: 0px;
+	.mat-expansion-panel {
+		box-shadow: none;
+		background: rgba(0, 120, 212, 0.05);
+
+		&:not(.mat-expanded) {
+			.mat-expansion-panel-header {
+				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			}
+		}
+		.mat-expansion-panel-body {
+			padding: 0 16px 8px;
+		}
+	}
+	mat-card-content {
+		padding-bottom: 8px;
+	}
+}

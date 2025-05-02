@@ -17,6 +17,7 @@ export class AuthService {
   constructor() {}
 
   async init(): Promise<boolean> {
+
     if (this.isInitialized) {
       return true;
     }

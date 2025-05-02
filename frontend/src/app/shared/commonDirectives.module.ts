@@ -23,7 +23,7 @@ export { NgModel } from '@angular/forms';        // [(ngModel)]
     // Structural Directives
     NgIf,
     NgFor,
-    NgSwitch, NgSwitchCase, NgSwitchDefault,
+    NgSwitch, NgSwitchCase, NgSwitchDefault, CommonModule,
     
     // Pipes
     DatePipe,
