@@ -75,7 +75,7 @@
 }
 
 .app-sidenav {
-	width: 250px;
+	width: 200px;
 	transition: width 0.3s ease;
 	box-shadow: 3px 0 6px rgba(0, 0, 0, 0.16);
 

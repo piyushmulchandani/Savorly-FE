@@ -6,14 +6,15 @@ import { MaterialModule } from '../../shared/material.module';
 import { CommonDirectivesModule } from '../../shared/commonDirectives.module';
 import { UserService } from '../../services/user.service';
 import { SavorlyRole } from '../../interfaces/user.interface';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 
 @Component({
 	selector: 'app-restaurants',
 	templateUrl: './restaurants.component.html',
 	styleUrls: ['./restaurants.component.css'],
-	imports: [MaterialModule, CommonDirectivesModule, RouterModule, FormsModule],
+	imports: [MaterialModule, CommonDirectivesModule, RouterModule, FormsModule, CapitalizePipe],
 })
 export class RestaurantsComponent implements OnInit {
 	restaurants: Restaurant[] = [];
@@ -61,7 +62,12 @@ export class RestaurantsComponent implements OnInit {
 	cuisineOptions = Object.values(CuisineType).filter(value => typeof value === 'string');
 	cityOptions: string[] = [];
 
-	constructor(private restaurantService: RestaurantService, private snackBar: MatSnackBar, private userService: UserService) {
+	constructor(
+		private restaurantService: RestaurantService,
+		private snackBar: MatSnackBar,
+		private userService: UserService,
+		private router: Router
+	) {
 		this.minDate = new Date();
 	}
 
@@ -99,5 +105,10 @@ export class RestaurantsComponent implements OnInit {
 	resetFilters(): void {
 		this.filters = { status: RestaurantStatus.PUBLIC };
 		this.loadRestaurants();
+	}
+
+	goTo(restaurant: Restaurant) {
+		console.log('Going to restaurant: ' + restaurant.name);
+		this.router.navigate([`/restaurants/${restaurant.id}`]);
 	}
 }

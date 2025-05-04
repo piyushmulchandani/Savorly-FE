@@ -12,15 +12,11 @@ import { AuthService } from '../../services/auth.service';
 	templateUrl: './sidebar.component.html',
 	styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
 	isCollapsed = false;
 	Role = SavorlyRole;
 
 	constructor(private userService: UserService, public authService: AuthService) {}
-
-	ngOnInit(): void {
-		this.userService.getProfile().subscribe();
-	}
 
 	toggleSidebar(): void {
 		this.isCollapsed = !this.isCollapsed;

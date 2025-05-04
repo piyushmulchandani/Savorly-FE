@@ -1,0 +1,205 @@
+<div class="restaurant-view-container">
+	<!-- Access control based on restaurant status -->
+	<div *ngIf="restaurant && hasStatus(statuses.PRIVATE) && !isRestaurantStaff()" class="status-message">
+		<mat-icon>lock</mat-icon>
+		<h2>This restaurant is private</h2>
+		<p>This restaurant is not available for public viewing.</p>
+	</div>
+
+	<div *ngIf="restaurant && hasStatus(statuses.REQUESTED) && !isAdminOrRestaurantAdmin()" class="status-message">
+		<mat-icon>hourglass_empty</mat-icon>
+		<h2>Restaurant pending approval</h2>
+		<p>This restaurant is awaiting approval and is not available for public viewing.</p>
+	</div>
+
+	<div *ngIf="restaurant && hasStatus(statuses.REJECTED) && !isAdminOrRestaurantAdmin()" class="status-message">
+		<mat-icon>lock</mat-icon>
+		<h2>Restaurant not available</h2>
+		<p>This restaurant is not available right now.</p>
+	</div>
+
+	<!-- Show rejection message if status is REJECTED -->
+	<div *ngIf="restaurant && hasStatus(statuses.REJECTED) && isAdminOrRestaurantAdmin()" class="rejection-message">
+		<h3>Rejection Reason:</h3>
+		<p>{{ restaurant.rejectionMessage }}</p>
+	</div>
+
+	<!-- Main content - only visible if the restaurant is PUBLIC or user has appropriate permissions -->
+	<ng-container *ngIf="canViewRestaurant()">
+		<!-- Navigation tabs for authorized users -->
+		<mat-tab-group *ngIf="isRestaurantStaff()" class="admin-nav-tabs" mat-align-tabs="center" animationDuration="300ms">
+			<mat-tab label="Overview">
+				<ng-template matTabContent>
+					<!-- Overview content loads here -->
+					<div class="restaurant-content">
+						<ng-container *ngTemplateOutlet="restaurantDetails"></ng-container>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Tables">
+				<ng-template matTabContent>
+					<!-- Tables management content -->
+					<div class="restaurant-content">
+						<p>Tables management will be implemented here</p>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Orders">
+				<ng-template matTabContent>
+					<!-- Orders management content -->
+					<div class="restaurant-content">
+						<p>Orders management will be implemented here</p>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Reservations">
+				<ng-template matTabContent>
+					<!-- Reservations content -->
+					<div class="restaurant-content">
+						<p>Reservations management will be implemented here</p>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Settings" *ngIf="canAccessSettings()">
+				<ng-template matTabContent>
+					<!-- Settings content (for admins only) -->
+					<div class="restaurant-content">
+						<p>Restaurant settings will be implemented here</p>
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+
+		<!-- Regular view for public users -->
+		<div *ngIf="!isRestaurantStaff()" class="restaurant-content">
+			<ng-container *ngTemplateOutlet="restaurantDetails"></ng-container>
+		</div>
+	</ng-container>
+
+	<!-- Restaurant details -->
+	<ng-template #restaurantDetails>
+		<div *ngIf="restaurant" class="restaurant-details">
+			<div class="restaurant-header">
+				<div class="restaurant-image" *ngIf="restaurant.imageUrl">
+					<img [src]="restaurant.imageUrl || 'assets/images/default-restaurant.jpg'" alt="{{ restaurant.name }}" />
+				</div>
+				<div class="restaurant-info">
+					<h1>{{ restaurant.name }}</h1>
+					<div class="restaurant-status" *ngIf="isAdminOrRestaurantAdmin()">
+						<span [ngClass]="'status-badge ' + restaurant.status.toLowerCase()">{{ restaurant.status }}</span>
+					</div>
+					<div class="restaurant-meta">
+						<span class="cuisine-type">{{ restaurant.cuisineType | capitalize }}</span>
+						<span class="location">{{ restaurant.city }}, {{ restaurant.country }}</span>
+					</div>
+					<div class="hours">
+						<mat-icon>access_time</mat-icon>
+						<span>{{ restaurant.openTime }} - {{ restaurant.closeTime }}</span>
+					</div>
+					<p class="description">{{ restaurant.description }}</p>
+				</div>
+			</div>
+			<mat-divider></mat-divider>
+
+			<!-- Products Section -->
+			<div class="products-section">
+				<div class="section-header">
+					<h2>Menu</h2>
+					<button *ngIf="canManageProducts()" mat-fab color="primary" aria-label="Add product" (click)="openNewProductDialog()">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+
+				<div *ngIf="loadingProducts" class="loading-products">
+					<mat-spinner diameter="30"></mat-spinner>
+					<span>Loading menu...</span>
+				</div>
+
+				<div *ngIf="!loadingProducts && products.length === 0" class="no-products">
+					<p>No products available for this restaurant.</p>
+				</div>
+
+				<div *ngIf="!loadingProducts && products.length > 0" class="product-categories">
+					<div *ngFor="let category of productCategories" class="product-category-section">
+						<div *ngIf="productsByCategory[category] && productsByCategory[category].length > 0">
+							<h3 class="category-title">{{ category | capitalize : true }}</h3>
+							<div class="product-grid">
+								<div *ngFor="let product of productsByCategory[category]" class="product-card">
+									<div class="product-info">
+										<h4>{{ product.name }}</h4>
+										<span class="product-price">{{ product.price }}</span>
+										<button
+											*ngIf="isAdminOrRestaurantAdmin()"
+											mat-raised-button
+											class="reject-button"
+											(click)="openRemoveProductDialog(product.id)">
+											<mat-icon style="margin: 0">cancel</mat-icon>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<mat-divider></mat-divider>
+			<div class="contact-info">
+				<h2>Contact & Location</h2>
+				<div class="contact-grid">
+					<div class="address">
+						<mat-icon>location_on</mat-icon>
+						<span>{{ restaurant.address }}, {{ restaurant.city }}, {{ restaurant.country }}</span>
+					</div>
+					<div class="phone" *ngIf="restaurant.phone">
+						<mat-icon>phone</mat-icon>
+						<span>{{ restaurant.phone }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="action-buttons" *ngIf="hasStatus(statuses.PUBLIC)">
+				<button mat-raised-button color="primary" (click)="makeReservation()">Make Reservation</button>
+			</div>
+
+			<!-- Ownership proof section for REQUESTED restaurants -->
+			<div *ngIf="hasStatus(statuses.REQUESTED) && isAdminOrRestaurantAdmin()" class="ownership-proof-section">
+				<mat-divider></mat-divider>
+				<h2>Ownership Verification</h2>
+				<div class="ownership-document">
+					<div *ngIf="restaurant.ownershipProofUrl" class="ownership-proof-info">
+						<div class="document-info">
+							<mat-icon class="document-icon">description</mat-icon>
+							<span class="document-name">Ownership Proof Document</span>
+						</div>
+
+						<div class="download-section">
+							<button mat-flat-button color="primary" (click)="downloadProof()"><mat-icon>download</mat-icon> Download Proof</button>
+						</div>
+					</div>
+
+					<div *ngIf="!restaurant.ownershipProofUrl" class="no-document">
+						<p>No ownership proof document available.</p>
+					</div>
+				</div>
+
+				<!-- Admin approval buttons -->
+				<div *ngIf="isAdmin()" class="approval-actions">
+					<button mat-raised-button color="primary" class="approve-button" (click)="approveRestaurant()">
+						<mat-icon>check_circle</mat-icon>
+						Approve Restaurant
+					</button>
+					<button mat-raised-button color="warn" class="reject-button" (click)="rejectRestaurant()">
+						<mat-icon>cancel</mat-icon>
+						Reject with Reason
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="!restaurant" class="loading-state">
+			<mat-spinner diameter="40"></mat-spinner>
+			<p>Loading restaurant information...</p>
+		</div>
+	</ng-template>
+</div>

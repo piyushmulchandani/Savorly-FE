@@ -54,7 +54,7 @@
 						<mat-label>Status</mat-label>
 						<mat-select [(ngModel)]="filters.status" (ngModelChange)="onFilterChange()">
 							<mat-option *ngFor="let status of statusOptions" [value]="status">
-								{{ status }}
+								{{ status | capitalize : true }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>
@@ -75,7 +75,7 @@
 					<mat-select [(ngModel)]="filters.cuisineType" (ngModelChange)="onFilterChange()">
 						<mat-option>All</mat-option>
 						<mat-option *ngFor="let cuisine of cuisineOptions" [value]="cuisine">
-							{{ cuisine }}
+							{{ cuisine | capitalize : true }}
 						</mat-option>
 					</mat-select>
 				</mat-form-field>
@@ -85,7 +85,7 @@
 					<mat-select [(ngModel)]="filters.city" (ngModelChange)="onFilterChange()">
 						<mat-option>All</mat-option>
 						<mat-option *ngFor="let city of cityOptions" [value]="city">
-							{{ city }}
+							{{ city | capitalize : true }}
 						</mat-option>
 					</mat-select>
 				</mat-form-field>
@@ -110,19 +110,24 @@
 
 	<div class="restaurants-grid">
 		<mat-card *ngFor="let restaurant of restaurants" class="restaurant-card">
-			<img mat-card-image [src]="restaurant.imageUrl || 'assets/default-restaurant.jpg'" [alt]="restaurant.name" />
+			<img
+				*ngIf="restaurant.imageUrl"
+				mat-card-image
+				(click)="goTo(restaurant)"
+				[src]="restaurant.imageUrl || 'assets/default-restaurant.jpg'"
+				[alt]="restaurant.name" />
 			<mat-card-header>
-				<mat-card-title>{{ restaurant.name }}</mat-card-title>
+				<mat-card-title (click)="goTo(restaurant)">{{ restaurant.name }}</mat-card-title>
 				<mat-card-subtitle>
-					<span class="cuisine-badge">{{ restaurant.cuisineType }}</span>
+					<span class="cuisine-badge">{{ restaurant.cuisineType | capitalize : true }}</span>
 					<span class="city-badge">
 						<mat-icon>location_on</mat-icon>
-						{{ restaurant.city }}
+						{{ restaurant.city | capitalize : true }}
 					</span>
 				</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-actions>
-				<button mat-button color="primary" [routerLink]="['/restaurants', restaurant.id]">View Details</button>
+				<button mat-button color="primary" (click)="goTo(restaurant)">View Details</button>
 				<button mat-button color="accent">Make Reservation</button>
 			</mat-card-actions>
 		</mat-card>

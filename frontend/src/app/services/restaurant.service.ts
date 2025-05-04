@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Restaurant, RestaurantSearch } from '../interfaces/restaurant.interface';
+import { Restaurant, RestaurantModification, RestaurantSearch } from '../interfaces/restaurant.interface';
 import { DateTime } from 'luxon';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,6 +11,23 @@ export class RestaurantService {
 	private apiUrl = 'http://localhost:8080/api/v1/restaurants';
 
 	constructor(private _http: HttpClient) {}
+
+	acceptRestaurant(id: number) {
+		const URL = `${this.apiUrl}/accept/${id}`;
+	}
+
+	rejectRestaurant(id: number) {
+		const URL = `${this.apiUrl}/reject/${id}`;
+	}
+
+	updateRestaurant(request: RestaurantModification) {
+		throw new Error('Method not implemented.');
+	}
+
+	getRestaurantById(id: number): Observable<Restaurant> {
+		const URL = `${this.apiUrl}/${id}`;
+		return this._http.get<Restaurant>(URL);
+	}
 
 	getRestaurants(request: RestaurantSearch) {
 		const headers = new HttpHeaders({
