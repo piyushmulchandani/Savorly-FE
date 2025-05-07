@@ -91,7 +91,7 @@
 				</mat-form-field>
 
 				<div class="filter-actions">
-					<button mat-raised-button color="primary" (click)="loadRestaurants()" class="wide-btn"><mat-icon>search</mat-icon> Search</button>
+					<button mat-raised-button (click)="loadRestaurants()" class="wide-btn"><mat-icon>search</mat-icon> Search</button>
 					<button mat-button (click)="resetFilters()" class="wide-btn"><mat-icon>clear</mat-icon> Reset</button>
 				</div>
 			</div>
@@ -127,8 +127,8 @@
 				</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-actions>
-				<button mat-button color="primary" (click)="goTo(restaurant)">View Details</button>
-				<button mat-button color="accent">Make Reservation</button>
+				<button mat-raised-button (click)="goTo(restaurant)">View Details</button>
+				<button mat-raised-button (click)="makeReservation(restaurant)">Make Reservation</button>
 			</mat-card-actions>
 		</mat-card>
 	</div>

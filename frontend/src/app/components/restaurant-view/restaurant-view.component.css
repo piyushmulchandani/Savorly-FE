@@ -1,7 +1,7 @@
 .restaurant-view-container {
 	width: 97%;
-	margin: 0;
-	padding: 20px;
+	margin: 0 20px;
+	padding: 10px;
 }
 
 .restaurant-content {
@@ -16,8 +16,8 @@
 }
 
 .restaurant-image {
-	flex: 0 0 300px;
-	height: 200px;
+	width: 450px;
+	height: 300px;
 	overflow: hidden;
 	border-radius: 8px;
 }
@@ -43,6 +43,34 @@
 	gap: 15px;
 	margin-bottom: 10px;
 	color: #666;
+}
+
+.restaurant-details {
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 80px;
+}
+
+.fixed-bottom-section {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 16px;
+	background: transparent;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+}
+
+.fixed-bottom-button {
+	width: calc(100% - 32px);
+	background-color: chartreuse;
+	color: black;
+	font-size: larger;
+	max-width: 600px;
 }
 
 .hours {
@@ -139,7 +167,7 @@
 
 .product-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 	gap: 20px;
 }
 
@@ -167,7 +195,8 @@
 }
 
 .product-price {
-	font-weight: 500;
+	font-size: 20px;
+	font-weight: 1000;
 	color: #1976d2;
 	padding: 0.25rem 0.5rem;
 }
@@ -200,14 +229,12 @@
 	gap: 8px;
 }
 
-/* Action buttons */
 .action-buttons {
 	display: flex;
 	gap: 15px;
 	margin: 30px 0;
 }
 
-/* Loading state */
 .loading-state {
 	display: flex;
 	flex-direction: column;
@@ -216,17 +243,14 @@
 	padding: 60px 20px;
 }
 
-/* Admin nav tabs */
 .admin-nav-tabs {
 	margin-bottom: 20px;
 }
 
-/* Tab content */
 .tab-content {
 	padding: 20px 0;
 }
 
-/* Ownership proof section */
 .ownership-proof-section {
 	margin-top: 30px;
 	padding-top: 20px;

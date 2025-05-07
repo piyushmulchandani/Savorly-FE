@@ -14,7 +14,7 @@ import { MaterialModule } from '../../shared/material.module';
 		</mat-dialog-content>
 		<mat-dialog-actions align="end">
 			<button mat-button mat-dialog-close>Cancel</button>
-			<button mat-raised-button [color]="data.confirmButtonColor" [mat-dialog-close]="true">
+			<button mat-raised-button [mat-dialog-close]="true">
 				{{ data.confirmButtonText || 'Confirm' }}
 			</button>
 		</mat-dialog-actions>
@@ -27,7 +27,6 @@ export class ConfirmDialogComponent {
 			title: string;
 			message: string;
 			confirmButtonText?: string;
-			confirmButtonColor?: 'primary' | 'accent' | 'warn';
 		}
 	) {}
 }

@@ -13,11 +13,23 @@ export class RestaurantService {
 	constructor(private _http: HttpClient) {}
 
 	acceptRestaurant(id: number) {
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		});
+
 		const URL = `${this.apiUrl}/accept/${id}`;
+		return this._http.post(URL, headers);
 	}
 
 	rejectRestaurant(id: number) {
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		});
+
 		const URL = `${this.apiUrl}/reject/${id}`;
+		this._http.post(URL, headers);
 	}
 
 	updateRestaurant(request: RestaurantModification) {

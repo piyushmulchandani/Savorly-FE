@@ -9,6 +9,8 @@ import { SavorlyRole } from '../../interfaces/user.interface';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CapitalizePipe } from '../../pipes/capitalize.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { ReservationDialogComponent } from '../reservation-dialog/reservation-dialog.component';
 
 @Component({
 	selector: 'app-restaurants',
@@ -66,7 +68,8 @@ export class RestaurantsComponent implements OnInit {
 		private restaurantService: RestaurantService,
 		private snackBar: MatSnackBar,
 		private userService: UserService,
-		private router: Router
+		private router: Router,
+		private dialog: MatDialog
 	) {
 		this.minDate = new Date();
 	}
@@ -110,5 +113,27 @@ export class RestaurantsComponent implements OnInit {
 	goTo(restaurant: Restaurant) {
 		console.log('Going to restaurant: ' + restaurant.name);
 		this.router.navigate([`/restaurants/${restaurant.id}`]);
+	}
+
+	makeReservation(restaurant: Restaurant): void {
+		if (restaurant && restaurant.status === 'PUBLIC') {
+			const dialogRef = this.dialog.open(ReservationDialogComponent, {
+				width: '1000px',
+				height: '600px',
+				data: {
+					restaurantId: restaurant.id,
+				},
+			});
+
+			dialogRef.afterClosed().subscribe((result: any) => {
+				if (result) {
+					this.snackBar.open('Succesfully made reservation', 'Close', { duration: 3000 });
+				} else {
+					this.snackBar.open('Error making reservation', 'Close', { duration: 3000 });
+				}
+			});
+		} else {
+			this.snackBar.open('Reservations are only available for public restaurants', 'Close', { duration: 3000 });
+		}
 	}
 }

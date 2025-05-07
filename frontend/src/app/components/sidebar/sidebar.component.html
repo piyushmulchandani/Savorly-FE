@@ -25,7 +25,7 @@
 	<mat-sidenav-container class="sidebar-container">
 		<mat-sidenav #sidenav [mode]="'side'" [opened]="!isCollapsed" class="app-sidenav">
 			<div class="sidebar-header">
-				<button mat-icon-button color="primary" (click)="toggleSidebar()">
+				<button mat-icon-button (click)="toggleSidebar()">
 					<mat-icon>{{ isCollapsed ? 'menu' : 'chevron_left' }}</mat-icon>
 				</button>
 				<h2 *ngIf="!isCollapsed" class="sidebar-title">Savorly</h2>
@@ -38,7 +38,7 @@
 					<span *ngIf="!isCollapsed">Restaurants</span>
 				</a>
 
-				<a mat-list-item routerLink="/my-reservations" routerLinkActive="active">
+				<a mat-list-item routerLink="/reservations" routerLinkActive="active">
 					<mat-icon>bookmark</mat-icon>
 					<span *ngIf="!isCollapsed">My Reservations</span>
 				</a>

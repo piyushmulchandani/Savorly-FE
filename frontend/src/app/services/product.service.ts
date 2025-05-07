@@ -36,4 +36,9 @@ export class ProductService {
 
 		return this._http.post<Product>(this.apiUrl, product, { headers });
 	}
+
+	removeProduct(id: number) {
+		const URL = `${this.apiUrl}/${id}`;
+		return this._http.delete<void>(URL);
+	}
 }

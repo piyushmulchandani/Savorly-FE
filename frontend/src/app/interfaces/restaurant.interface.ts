@@ -49,7 +49,6 @@ export interface RestaurantSearch {
 	city?: string;
 	date?: Date;
 	time?: string;
-	dateTime?: DateTime;
 	numPeople?: number;
 }
 

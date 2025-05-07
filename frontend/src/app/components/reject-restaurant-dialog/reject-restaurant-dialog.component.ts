@@ -26,7 +26,7 @@ import { MaterialModule } from '../../shared/material.module';
 			</mat-dialog-content>
 			<mat-dialog-actions align="end">
 				<button mat-button mat-dialog-close>Cancel</button>
-				<button mat-raised-button color="warn" type="submit" [disabled]="rejectionForm.invalid">Reject</button>
+				<button mat-raised-button type="submit" [disabled]="rejectionForm.invalid">Reject</button>
 			</mat-dialog-actions>
 		</form>
 	`,
