@@ -16,7 +16,6 @@
 				</mat-expansion-panel-header>
 
 				<div class="reservation-fields">
-					<!-- Date Picker -->
 					<mat-form-field appearance="outline">
 						<mat-label>Date</mat-label>
 						<input matInput [matDatepicker]="picker" [(ngModel)]="filters.date" [min]="minDate" />
@@ -24,7 +23,6 @@
 						<mat-datepicker #picker></mat-datepicker>
 					</mat-form-field>
 
-					<!-- Time Selector -->
 					<mat-form-field appearance="outline">
 						<mat-label>Time</mat-label>
 						<mat-select [(ngModel)]="filters.time">
@@ -34,7 +32,6 @@
 						</mat-select>
 					</mat-form-field>
 
-					<!-- Number of People -->
 					<mat-form-field appearance="outline">
 						<mat-label>Number of People</mat-label>
 						<input matInput type="number" min="1" [(ngModel)]="filters.numPeople" />

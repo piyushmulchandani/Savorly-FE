@@ -1,0 +1,123 @@
+<div class="restaurant-registration-container">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>Register Your Restaurant</mat-card-title>
+			<mat-card-subtitle> Please complete the form below to register your restaurant on Savorly. </mat-card-subtitle>
+		</mat-card-header>
+
+		<mat-card-content>
+			<form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+				<!-- Restaurant Basic Information -->
+				<h3>Restaurant Information</h3>
+				<div class="form-row">
+					<mat-form-field appearance="outline" class="full-width">
+						<mat-label>Restaurant Name</mat-label>
+						<input matInput formControlName="name" placeholder="Enter restaurant name" required />
+						<mat-error *ngIf="restaurantForm.get('name')?.hasError('required')"> Restaurant name is required </mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="form-row two-columns">
+					<mat-form-field appearance="outline">
+						<mat-label>Opening Time</mat-label>
+						<input matInput type="time" formControlName="openTime" required />
+						<mat-error *ngIf="restaurantForm.get('openTime')?.hasError('required')"> Opening time is required </mat-error>
+					</mat-form-field>
+
+					<mat-form-field appearance="outline">
+						<mat-label>Closing Time</mat-label>
+						<input matInput type="time" formControlName="closeTime" required />
+						<mat-error *ngIf="restaurantForm.get('closeTime')?.hasError('required')"> Closing time is required </mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="form-row">
+					<mat-form-field appearance="outline" class="full-width">
+						<mat-label>Cuisine Type</mat-label>
+						<mat-select formControlName="cuisineType" required>
+							<mat-option *ngFor="let cuisine of cuisineTypes" [value]="cuisine">
+								{{ cuisine }}
+							</mat-option>
+						</mat-select>
+						<mat-error *ngIf="restaurantForm.get('cuisineType')?.hasError('required')"> Cuisine type is required </mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="form-row">
+					<mat-form-field appearance="outline" class="full-width">
+						<mat-label>Description</mat-label>
+						<textarea matInput formControlName="description" placeholder="Describe your restaurant" rows="3"></textarea>
+					</mat-form-field>
+				</div>
+
+				<!-- Location Information -->
+				<h3>Location Information</h3>
+				<div class="form-row">
+					<mat-form-field appearance="outline" class="full-width">
+						<mat-label>Address</mat-label>
+						<input matInput formControlName="address" placeholder="Enter restaurant address" required />
+						<mat-error *ngIf="restaurantForm.get('address')?.hasError('required')"> Address is required </mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="form-row two-columns">
+					<mat-form-field appearance="outline">
+						<mat-label>City</mat-label>
+						<input matInput formControlName="city" placeholder="Enter city" required />
+						<mat-error *ngIf="restaurantForm.get('city')?.hasError('required')"> City is required </mat-error>
+					</mat-form-field>
+
+					<mat-form-field appearance="outline">
+						<mat-label>Country</mat-label>
+						<input matInput formControlName="country" placeholder="Enter country" required />
+						<mat-error *ngIf="restaurantForm.get('country')?.hasError('required')"> Country is required </mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="form-row">
+					<mat-form-field appearance="outline" class="full-width">
+						<mat-label>Phone Number</mat-label>
+						<input matInput formControlName="phone" placeholder="Enter phone number" />
+					</mat-form-field>
+				</div>
+
+				<!-- Document Upload Section -->
+				<h3>Verification Documentation</h3>
+				<p class="upload-instructions">
+					Please upload a PDF document that provides proof of your restaurant ownership and existence. This could include business
+					registration documents, licenses, permits, or other official documentation.
+				</p>
+
+				<div class="file-upload-section">
+					<button type="button" mat-raised-button color="primary" (click)="fileInput.click()">
+						<mat-icon>cloud_upload</mat-icon>
+						Select PDF Document
+					</button>
+					<input #fileInput type="file" accept="application/pdf" style="display: none" (change)="onFileSelected($event)" />
+
+					<span class="file-name" *ngIf="selectedFile"> Selected file: {{ selectedFile.name }} </span>
+				</div>
+
+				<!-- Consent -->
+				<div class="consent-section">
+					<mat-checkbox formControlName="consentToTerms" required>
+						I consent to Savorly administrators accessing and reviewing the uploaded documents for verification purposes and managing
+						restaurant information when necessary for platform operation.
+					</mat-checkbox>
+					<mat-error *ngIf="restaurantForm.get('consentToTerms')?.hasError('required') && restaurantForm.get('consentToTerms')?.touched">
+						You must agree to the terms to continue
+					</mat-error>
+				</div>
+
+				<!-- Form Actions -->
+				<div class="form-actions">
+					<button type="button" mat-button color="warn" routerLink="/">Cancel</button>
+					<button type="submit" mat-raised-button color="primary" [disabled]="restaurantForm.invalid || isSubmitting || !selectedFile">
+						<mat-spinner diameter="20" *ngIf="isSubmitting"></mat-spinner>
+						<span *ngIf="!isSubmitting">Submit Registration</span>
+					</button>
+				</div>
+			</form>
+		</mat-card-content>
+	</mat-card>
+</div>

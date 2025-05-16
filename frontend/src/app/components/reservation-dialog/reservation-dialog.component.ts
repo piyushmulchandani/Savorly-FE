@@ -38,11 +38,7 @@ export class ReservationDialogComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.userService.getProfile().subscribe({
-			next: response => {
-				this.username = response.username;
-			},
-		});
+		if (this.userService.userProfile) this.username = this.userService.userProfile.username;
 	}
 
 	onFilterChange(): void {

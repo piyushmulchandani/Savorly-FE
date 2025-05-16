@@ -15,8 +15,11 @@ import { AuthService } from '../../services/auth.service';
 export class SidebarComponent {
 	isCollapsed = false;
 	Role = SavorlyRole;
+	restaurantId: number | undefined;
 
-	constructor(private userService: UserService, public authService: AuthService) {}
+	constructor(private userService: UserService, public authService: AuthService) {
+		if (userService.userProfile && userService.userProfile.restaurant) this.restaurantId = userService.userProfile?.restaurant?.id;
+	}
 
 	toggleSidebar(): void {
 		this.isCollapsed = !this.isCollapsed;

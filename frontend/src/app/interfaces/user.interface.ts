@@ -1,27 +1,27 @@
-import { Restaurant } from "./restaurant.interface";
+import { Restaurant } from './restaurant.interface';
 
 export interface SavorlyUser {
-    username: string;
-    role: SavorlyRole;
-    restaurant?: Restaurant;
-    lastLogonDate?: Date;
+	username: string;
+	role: SavorlyRole;
+	restaurant?: Restaurant;
+	lastLogonDate?: Date;
 }
 
 export interface UserModification {
-    username: string;
-    role?: SavorlyRole;
-    restaurantName?: string;
+	username: string;
+	role?: SavorlyRole;
+	restaurantName?: string;
 }
 
 export interface UserSearch {
-    username?: string;
-    role?: SavorlyRole;
-    restaurantName?: string;
+	username?: string;
+	role?: SavorlyRole;
+	restaurantId?: number;
 }
 
 export enum SavorlyRole {
-    USER = 'USER',
-    ADMIN = 'ADMIN',
-    RESTAURANT_ADMIN = 'RESTAURANT_ADMIN',
-    RESTAURANT_WORKER = 'RESTAURANT_WORKER'
+	USER = 'USER',
+	ADMIN = 'ADMIN',
+	RESTAURANT_ADMIN = 'RESTAURANT_ADMIN',
+	RESTAURANT_WORKER = 'RESTAURANT_WORKER',
 }

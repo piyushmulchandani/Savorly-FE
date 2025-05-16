@@ -1,6 +1,6 @@
 /* sidebar.component.scss */
 .savorly-banner {
-	background: linear-gradient(135deg, #0078d4 0%, #004e8c 100%); /* Azure blue gradient */
+	background: linear-gradient(135deg, #0078d4 0%, #004e8c 100%);
 	color: white;
 	position: sticky;
 	top: 0;

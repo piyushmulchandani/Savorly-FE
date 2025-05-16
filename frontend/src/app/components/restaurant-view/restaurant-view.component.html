@@ -6,10 +6,10 @@
 		<p>This restaurant is not available for public viewing.</p>
 	</div>
 
-	<div *ngIf="restaurant && hasStatus(statuses.REQUESTED) && !isAdminOrRestaurantAdmin()" class="status-message">
+	<div *ngIf="restaurant && hasStatus(statuses.REQUESTED) && !isAdmin()" class="status-message">
 		<mat-icon>hourglass_empty</mat-icon>
 		<h2>Restaurant pending approval</h2>
-		<p>This restaurant is awaiting approval and is not available for public viewing.</p>
+		<p>This restaurant is awaiting approval and is not available yet.</p>
 	</div>
 
 	<div *ngIf="restaurant && hasStatus(statuses.REJECTED) && !isAdminOrRestaurantAdmin()" class="status-message">
@@ -18,10 +18,10 @@
 		<p>This restaurant is not available.</p>
 	</div>
 
-	<!-- Show rejection message if status is REJECTED -->
 	<div *ngIf="restaurant && hasStatus(statuses.REJECTED) && isAdminOrRestaurantAdmin()" class="rejection-message">
 		<h3>Rejection Reason:</h3>
 		<p>{{ restaurant.rejectionMessage }}</p>
+		<app-restaurant-settings [restaurant]="restaurant"></app-restaurant-settings>
 	</div>
 
 	<ng-container *ngIf="canViewRestaurant()">
@@ -39,7 +39,7 @@
 				<ng-template matTabContent>
 					<!-- Tables management content -->
 					<div class="restaurant-content">
-						<p>Tables management will be implemented here</p>
+						<app-tables *ngIf="restaurant" [restaurantId]="this.restaurant.id"></app-tables>
 					</div>
 				</ng-template>
 			</mat-tab>
@@ -47,7 +47,7 @@
 				<ng-template matTabContent>
 					<!-- Orders management content -->
 					<div class="restaurant-content">
-						<p>Orders management will be implemented here</p>
+						<app-orders *ngIf="restaurant" [restaurantId]="this.restaurant.id"></app-orders>
 					</div>
 				</ng-template>
 			</mat-tab>
@@ -59,11 +59,11 @@
 					</div>
 				</ng-template>
 			</mat-tab>
-			<mat-tab label="Settings" *ngIf="canAccessSettings()">
+			<mat-tab label="Settings" *ngIf="isAdminOrRestaurantAdmin()">
 				<ng-template matTabContent>
 					<!-- Settings content (for admins only) -->
 					<div class="restaurant-content">
-						<p>Restaurant settings will be implemented here</p>
+						<app-restaurant-settings *ngIf="this.restaurant" [restaurant]="this.restaurant"></app-restaurant-settings>
 					</div>
 				</ng-template>
 			</mat-tab>
@@ -79,9 +79,17 @@
 	<ng-template #restaurantDetails>
 		<div *ngIf="restaurant" class="restaurant-details">
 			<div class="restaurant-header">
-				<div class="restaurant-image" *ngIf="restaurant.imageUrl">
-					<img [src]="restaurant.imageUrl || 'assets/images/default-restaurant.jpg'" alt="{{ restaurant.name }}" />
+				<div class="restaurant-image" *ngIf="restaurant.imageUrl; else noImage">
+					<img [src]="restaurant.imageUrl" alt="Restaurant Image" />
 				</div>
+				<ng-template #noImage>
+					<div *ngIf="isAdminOrRestaurantAdmin()" class="no-image-placeholder">
+						<mat-icon class="no-image-icon">image</mat-icon>
+						<p>No image uploaded</p>
+						<input type="file" #imageInput (change)="onImageSelected($event)" accept="image/*" style="display: none" />
+						<button mat-raised-button color="primary" (click)="imageInput.click()">Upload Image</button>
+					</div>
+				</ng-template>
 				<div class="restaurant-info">
 					<h1>{{ restaurant.name }}</h1>
 					<div class="restaurant-status" *ngIf="isAdminOrRestaurantAdmin()">
@@ -104,7 +112,7 @@
 			<div class="products-section">
 				<div class="section-header">
 					<h2>Menu</h2>
-					<button mat-fab extended (click)="openNewProductDialog()">
+					<button mat-fab extended *ngIf="isAdminOrRestaurantAdmin()" (click)="openNewProductDialog()">
 						<mat-icon>add</mat-icon>
 						Add Product
 					</button>

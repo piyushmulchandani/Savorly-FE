@@ -1,0 +1,99 @@
+<h2 mat-dialog-title>Create New Order</h2>
+
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+	<mat-dialog-content class="order-dialog-content">
+		<div class="order-details-section">
+			<mat-form-field appearance="outline" class="full-width">
+				<mat-label>Order Type</mat-label>
+				<mat-select formControlName="type">
+					<mat-option *ngFor="let type of orderTypes" [value]="type">
+						{{ type | capitalize : true }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field appearance="outline" class="full-width">
+				<mat-label>Table</mat-label>
+				<mat-select formControlName="tableNumber">
+					<mat-option *ngIf="isLoadingTables" value="">Loading tables...</mat-option>
+					<mat-option *ngFor="let tableNumber of tableNumbers" [value]="tableNumber">Table #{{ tableNumber }}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="orderForm.get('tableNumber')?.hasError('required')"> Table is required </mat-error>
+			</mat-form-field>
+		</div>
+
+		<div class="product-selection-section">
+			<div class="section-title">Products</div>
+
+			<!-- Category filter buttons -->
+			<div class="category-filters">
+				<button type="button" mat-stroked-button [class.active]="selectedCategory === ''" (click)="filterByCategory('')">All</button>
+				<button
+					type="button"
+					mat-stroked-button
+					*ngFor="let category of categories"
+					[class.active]="selectedCategory === category"
+					(click)="filterByCategory(category)">
+					{{ category | capitalize : true }}
+				</button>
+			</div>
+
+			<!-- Products grid -->
+			<div class="products-grid" *ngIf="!isLoadingProducts && filteredProducts.length > 0">
+				<div
+					class="product-card"
+					*ngFor="let product of filteredProducts"
+					[class.selected]="isProductSelected(product)"
+					(click)="toggleProduct(product)">
+					<div class="product-info">
+						<div class="product-name">{{ product.name }}</div>
+						<div class="product-price">{{ product.price }}</div>
+					</div>
+					<div class="product-actions" *ngIf="isProductSelected(product)">
+						<button type="button" mat-icon-button color="warn" (click)="removeOneProduct(product)">
+							<mat-icon>remove</mat-icon>
+						</button>
+						<span class="product-count">{{ getProductCount(product) }}</span>
+						<button type="button" mat-icon-button class="azure-icon-btn" (click)="addAnotherProduct(product)">
+							<mat-icon>add</mat-icon>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="empty-products" *ngIf="!isLoadingProducts && filteredProducts.length === 0">
+				<mat-icon>restaurant_menu</mat-icon>
+				<p>No products available in this category</p>
+			</div>
+
+			<div class="loading-products" *ngIf="isLoadingProducts">
+				<mat-spinner diameter="40"></mat-spinner>
+				<p>Loading products...</p>
+			</div>
+		</div>
+
+		<!-- Selected products summary -->
+		<div class="selected-products-section" *ngIf="selectedProducts.length > 0">
+			<div class="section-title">Order Summary</div>
+			<div class="selected-products-list">
+				<div class="selected-product-item" *ngFor="let product of selectedProducts">
+					<span class="product-name">{{ product.name }}</span>
+					<span class="product-price">{{ product.price.toFixed(2) }}</span>
+				</div>
+			</div>
+			<div class="order-total">
+				<span class="total-label">Total:</span>
+				<span class="total-price">{{ getTotalPrice().toFixed(2) }}</span>
+			</div>
+
+			<mat-error *ngIf="productIdsFormArray.hasError('required') || productIdsFormArray.hasError('minLength')">
+				Please select at least one product
+			</mat-error>
+		</div>
+	</mat-dialog-content>
+
+	<mat-dialog-actions align="end">
+		<button mat-button type="button" (click)="onCancel()">Cancel</button>
+		<button mat-flat-button type="submit" [disabled]="orderForm.invalid">Create Order</button>
+	</mat-dialog-actions>
+</form>

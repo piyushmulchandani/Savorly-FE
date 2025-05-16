@@ -1,29 +1,29 @@
-import { DateTime } from "luxon";
-import { Product } from "./product.interface";
+import { Product } from './product.interface';
 
 export interface Order {
-    id: number;
-    orderTime: DateTime;
-    type: OrderType;
-    completed: boolean;
-    tableNumber: number;
-    products: Product[];
+	id: number;
+	orderTime: Date;
+	type: OrderType;
+	completed: boolean;
+	tableNumber: number;
+	products: Product[];
 }
 
 export interface OrderCreation {
-    tableId: number;
-    type: OrderType;
-    productIds: number[];
+	restaurantId: number;
+	tableNumber: number;
+	type: OrderType;
+	productIds: number[];
 }
 
 export interface OrderSearch {
-    restaurantId: number;
-    orderYpe?: OrderType;
-    completed?: boolean;
-    tableId?: number;
+	restaurantId: number;
+	orderType?: OrderType;
+	completed?: boolean;
+	tableId?: number;
 }
 
 export enum OrderType {
-    RESTAURANT= 'RESTAURANT',
-    DELIVERY = 'DELIVERY'
+	RESTAURANT = 'RESTAURANT',
+	DELIVERY = 'DELIVERY',
 }

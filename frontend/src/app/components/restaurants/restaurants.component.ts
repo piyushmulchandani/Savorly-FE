@@ -111,7 +111,6 @@ export class RestaurantsComponent implements OnInit {
 	}
 
 	goTo(restaurant: Restaurant) {
-		console.log('Going to restaurant: ' + restaurant.name);
 		this.router.navigate([`/restaurants/${restaurant.id}`]);
 	}
 

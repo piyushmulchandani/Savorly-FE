@@ -1,0 +1,98 @@
+<div class="restaurant-settings-container" *ngIf="restaurant">
+	<!-- Workers Section -->
+	<mat-card *ngIf="!isRejected" class="workers-section">
+		<mat-card-header>
+			<mat-card-title>Restaurant Workers</mat-card-title>
+		</mat-card-header>
+
+		<mat-card-content>
+			<div class="add-worker-section">
+				<mat-form-field>
+					<input matInput [(ngModel)]="newWorkerUsername" placeholder="Username to add" />
+				</mat-form-field>
+				<button mat-raised-button (click)="addWorker()" [disabled]="!newWorkerUsername">Add Worker</button>
+			</div>
+
+			<mat-list>
+				<li class="worker-list" *ngFor="let worker of workers">
+					<div class="worker-content">
+						<mat-icon>person</mat-icon>
+						<span *ngIf="isAdmin(worker)">Admin: </span>
+						<span>{{ worker.username }}</span>
+					</div>
+					<button mat-icon-button class="red-button" (click)="removeWorker(worker.username)">
+						<mat-icon>person_off</mat-icon>
+					</button>
+				</li>
+			</mat-list>
+		</mat-card-content>
+	</mat-card>
+
+	<!-- Restaurant Settings Form -->
+	<mat-card class="restaurant-settings-form">
+		<mat-card-header>
+			<mat-card-title>Restaurant Settings</mat-card-title>
+		</mat-card-header>
+
+		<mat-card-content>
+			<form [formGroup]="restaurantForm">
+				<div *ngIf="!isRejected" class="status-toggle-container">
+					<span>Restaurant Visibility</span>
+					<mat-slide-toggle formControlName="isPublic" color="primary">
+						{{ restaurantForm.get('isPublic')?.value ? 'Public' : 'Private' }}
+					</mat-slide-toggle>
+				</div>
+
+				<mat-form-field>
+					<mat-label>Open Time</mat-label>
+					<input matInput type="time" formControlName="openTime" />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Close Time</mat-label>
+					<input matInput type="time" formControlName="closeTime" />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Cuisine Type</mat-label>
+					<mat-select formControlName="cuisineType">
+						<mat-option *ngFor="let cuisineType of cuisineTypes | keyvalue" [value]="cuisineType.value">
+							{{ cuisineType.value | capitalize : true }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Description</mat-label>
+					<textarea matInput formControlName="description" rows="3"></textarea>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Address</mat-label>
+					<input matInput formControlName="address" />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Phone Number</mat-label>
+					<input matInput formControlName="phone" />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>City</mat-label>
+					<input matInput formControlName="city" />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Country</mat-label>
+					<input matInput formControlName="country" />
+				</mat-form-field>
+			</form>
+		</mat-card-content>
+
+		<mat-card-actions>
+			<button mat-raised-button color="primary" (click)="saveRestaurantChanges()" [disabled]="!restaurantForm.dirty">Save Changes</button>
+
+			<button mat-raised-button class="red-button" (click)="deleteRestaurant()">Delete Restaurant</button>
+		</mat-card-actions>
+	</mat-card>
+</div>

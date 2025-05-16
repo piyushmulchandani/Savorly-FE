@@ -3,13 +3,12 @@
 		<button *ngIf="isCollapsed" mat-icon-button class="collapse-toggle" (click)="toggleSidebar()">
 			<mat-icon>menu</mat-icon>
 		</button>
-		<!-- Centered App Name -->
+
 		<div class="app-name-center">
 			<span class="logo">🍽️</span>
 			<h1>Savorly</h1>
 		</div>
 
-		<!-- Right-aligned User Section -->
 		<div class="user-section" *ngIf="authService.isAuthenticated()">
 			<span class="welcome-text">Hello, {{ authService.getUsername() }}!</span>
 			<button mat-icon-button (click)="authService.logout()" matTooltip="Logout" class="logout-btn">
@@ -20,8 +19,6 @@
 </mat-toolbar>
 
 <div class="sidebar-container">
-	<!-- Collapsed State Toggle Button (always visible) -->
-
 	<mat-sidenav-container class="sidebar-container">
 		<mat-sidenav #sidenav [mode]="'side'" [opened]="!isCollapsed" class="app-sidenav">
 			<div class="sidebar-header">
@@ -32,7 +29,6 @@
 			</div>
 
 			<mat-nav-list>
-				<!-- For Everyone -->
 				<a mat-list-item routerLink="/restaurants" routerLinkActive="active">
 					<mat-icon>restaurant</mat-icon>
 					<span *ngIf="!isCollapsed">Restaurants</span>
@@ -43,15 +39,20 @@
 					<span *ngIf="!isCollapsed">My Reservations</span>
 				</a>
 
-				<!-- For Restaurant Staff and Admins -->
 				<ng-container *ngIf="hasRole(Role.RESTAURANT_WORKER) || hasRole(Role.RESTAURANT_ADMIN) || hasRole(Role.ADMIN)">
-					<a mat-list-item routerLink="/my-restaurant" routerLinkActive="active">
+					<a mat-list-item [routerLink]="['/restaurants/', this.restaurantId]" routerLinkActive="active">
 						<mat-icon>business</mat-icon>
 						<span *ngIf="!isCollapsed">My Restaurant</span>
 					</a>
 				</ng-container>
 
-				<!-- Admin Only Sections -->
+				<ng-container *ngIf="hasRole(Role.USER) || hasRole(Role.ADMIN)">
+					<a mat-list-item routerLink="/restaurant-registration" routerLinkActive="active">
+						<mat-icon>add_business</mat-icon>
+						<span *ngIf="!isCollapsed">Add your restaurant!</span>
+					</a>
+				</ng-container>
+
 				<ng-container *ngIf="hasRole(Role.ADMIN)">
 					<a mat-list-item routerLink="/users" routerLinkActive="active">
 						<mat-icon>people</mat-icon>

@@ -1,0 +1,101 @@
+.users-container {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.filters-card {
+	width: 100%;
+}
+
+.filters-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: center;
+}
+
+.filters-form mat-form-field {
+	flex: 1;
+	min-width: 200px;
+}
+
+.table-container {
+	position: relative;
+	min-height: 200px;
+	overflow: auto;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loading-shade {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.users-table {
+	width: 100%;
+}
+
+.mat-column-username {
+	flex: 1;
+	min-width: 120px;
+}
+
+.mat-column-role {
+	flex: 1;
+	min-width: 180px;
+}
+
+.mat-column-restaurant {
+	flex: 1;
+	min-width: 200px;
+}
+
+.mat-column-lastLogonDate {
+	flex: 1;
+	min-width: 180px;
+}
+
+.role-badge {
+	padding: 4px 8px;
+	border-radius: 16px;
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: uppercase;
+	display: inline-block;
+}
+
+.role-badge.admin {
+	background-color: #fee2e2;
+	color: #b91c1c;
+}
+
+.role-badge.user {
+	background-color: #e0f2fe;
+	color: #0369a1;
+}
+
+.role-badge.restaurant_admin {
+	background-color: #fef3c7;
+	color: #92400e;
+}
+
+.role-badge.restaurant_worker {
+	background-color: #d1fae5;
+	color: #065f46;
+}
+
+.no-data-row td {
+	padding: 20px;
+	text-align: center;
+	color: rgba(0, 0, 0, 0.54);
+}

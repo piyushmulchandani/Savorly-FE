@@ -17,16 +17,27 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { RejectRestaurantDialogComponent } from '../reject-restaurant-dialog/reject-restaurant-dialog.component';
 import { ReservationsComponent } from '../reservations/reservations.component';
 import { ReservationDialogComponent } from '../reservation-dialog/reservation-dialog.component';
+import { TablesComponent } from '../tables/tables.component';
+import { OrdersComponent } from '../orders/orders.component';
+import { RestaurantSettingsComponent } from '../restaurant-settings/restaurant-settings.component';
 
 @Component({
 	selector: 'app-restaurant-view',
 	standalone: true,
-	imports: [MaterialModule, CommonDirectivesModule, CommonModule, CapitalizePipe, ReservationsComponent],
+	imports: [
+		MaterialModule,
+		CommonDirectivesModule,
+		CommonModule,
+		CapitalizePipe,
+		ReservationsComponent,
+		TablesComponent,
+		OrdersComponent,
+		RestaurantSettingsComponent,
+	],
 	templateUrl: './restaurant-view.component.html',
 	styleUrl: './restaurant-view.component.css',
 })
 export class RestaurantViewComponent implements OnInit {
-	currentUser: SavorlyUser | undefined;
 	restaurant: Restaurant | undefined;
 	restaurantId: number | undefined;
 	statuses = RestaurantStatus;
@@ -48,8 +59,6 @@ export class RestaurantViewComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.currentUser = this.userService.userProfile;
-
 		if (this.restaurantId !== undefined && !isNaN(this.restaurantId)) {
 			this.loadRestaurantData();
 			this.loadProducts();
@@ -135,12 +144,12 @@ export class RestaurantViewComponent implements OnInit {
 	}
 
 	isRestaurantStaff(): boolean {
-		if (!this.currentUser || !this.restaurant) return false;
-		if (this.currentUser.role === SavorlyRole.ADMIN) return true;
+		if (!this.restaurant) return false;
+		if (this.userService.hasRole(SavorlyRole.ADMIN)) return true;
 
 		if (
-			(this.currentUser.role === SavorlyRole.RESTAURANT_ADMIN || this.currentUser.role === SavorlyRole.RESTAURANT_WORKER) &&
-			this.currentUser.restaurant?.id === this.restaurant.id
+			(this.userService.hasRole(SavorlyRole.RESTAURANT_ADMIN) || this.userService.hasRole(SavorlyRole.RESTAURANT_WORKER)) &&
+			this.userService.userProfile?.restaurant?.id === this.restaurant.id
 		) {
 			return true;
 		}
@@ -149,32 +158,55 @@ export class RestaurantViewComponent implements OnInit {
 	}
 
 	isAdmin(): boolean {
-		if (!this.currentUser) return false;
-		return this.currentUser.role === SavorlyRole.ADMIN;
+		return this.userService.hasRole(SavorlyRole.ADMIN);
 	}
 
 	isAdminOrRestaurantAdmin(): boolean {
-		if (!this.currentUser || !this.restaurant) return false;
+		if (!this.restaurant) return false;
 
-		if (this.currentUser.role === SavorlyRole.ADMIN) {
+		if (this.userService.hasRole(SavorlyRole.ADMIN)) {
 			return true;
 		}
 
-		if (this.currentUser.role === SavorlyRole.RESTAURANT_ADMIN && this.currentUser.restaurant?.id === this.restaurant.id) {
+		if (this.userService.hasRole(SavorlyRole.RESTAURANT_ADMIN) && this.userService.userProfile?.restaurant?.id === this.restaurant.id) {
 			return true;
 		}
 
 		return false;
 	}
 
-	canAccessSettings(): boolean {
-		if (!this.currentUser || !this.restaurant) return false;
-		return this.isAdminOrRestaurantAdmin();
+	onImageSelected(event: any) {
+		const file: File = event.target.files[0];
+
+		if (file && this.restaurant) {
+			if (!this.isValidImageFile(file)) {
+				this.snackBar.open('Invalid file type or size', 'Close', { duration: 3000 });
+				return;
+			}
+
+			this.restaurantService.uploadImage(this.restaurant.id, file).subscribe({
+				next: () => {
+					this.loadRestaurantData();
+				},
+				error: () => {
+					this.snackBar.open('Failed to upload image', 'Close', { duration: 3000 });
+				},
+			});
+		}
 	}
 
-	canManageProducts(): boolean {
-		if (!this.currentUser || !this.restaurant) return false;
-		return this.isAdminOrRestaurantAdmin();
+	private isValidImageFile(file: File): boolean {
+		const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+		if (!allowedTypes.includes(file.type)) {
+			return false;
+		}
+
+		const maxSizeInBytes = 5 * 1024 * 1024;
+		if (file.size > maxSizeInBytes) {
+			return false;
+		}
+
+		return true;
 	}
 
 	openNewProductDialog(): void {
@@ -222,11 +254,11 @@ export class RestaurantViewComponent implements OnInit {
 	}
 
 	shouldShowFixedButton(): boolean {
-		if (!this.currentUser || !this.restaurant) return false;
+		if (!this.restaurant) return false;
 
 		if (
 			this.restaurant.status === RestaurantStatus.PUBLIC &&
-			(this.currentUser.role === SavorlyRole.ADMIN || this.currentUser.role === SavorlyRole.USER)
+			(this.userService.hasRole(SavorlyRole.ADMIN) || this.userService.hasRole(SavorlyRole.USER))
 		) {
 			return true;
 		}
@@ -237,7 +269,7 @@ export class RestaurantViewComponent implements OnInit {
 	makeReservation(): void {
 		if (this.restaurant && this.restaurant.status === 'PUBLIC') {
 			const dialogRef = this.dialog.open(ReservationDialogComponent, {
-				width: '1000px',
+				minWidth: '1000px',
 				height: '600px',
 				data: {
 					restaurantId: this.restaurantId,
@@ -288,7 +320,7 @@ export class RestaurantViewComponent implements OnInit {
 		if (!this.restaurant || !this.isAdmin()) return;
 
 		const rejectDialogRef = this.dialog.open(RejectRestaurantDialogComponent, {
-			width: '400px',
+			width: '600px',
 			data: {
 				restaurantName: this.restaurant.name,
 			},
@@ -296,7 +328,7 @@ export class RestaurantViewComponent implements OnInit {
 
 		rejectDialogRef.afterClosed().subscribe(result => {
 			if (this.restaurant && result && result.confirmed) {
-				this.restaurantService.acceptRestaurant(this.restaurant?.id).subscribe({
+				this.restaurantService.rejectRestaurant(this.restaurant?.id, result.rejectionMessage).subscribe({
 					next: () => {
 						this.loadRestaurantData();
 					},

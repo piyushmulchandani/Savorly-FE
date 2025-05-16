@@ -31,7 +31,7 @@
 			<h3>Available Times</h3>
 			<div class="time-buttons">
 				<button *ngFor="let time of availableTimes" mat-stroked-button (click)="selectTime(time)" [class.selected]="isTimeSelected(time)">
-					{{ time }}
+					{{ time.substring(0, 5) }}
 				</button>
 			</div>
 		</div>

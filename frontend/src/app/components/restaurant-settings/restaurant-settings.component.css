@@ -1,0 +1,68 @@
+.restaurant-settings-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 20px;
+}
+
+.workers-section,
+.restaurant-settings-form {
+	width: 100%;
+}
+
+.add-worker-section {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 15px;
+}
+
+.worker-list {
+	padding: 4px 20px;
+	background-color: #f0f7ff;
+	border-left: 6px solid #2196f3;
+	border-radius: 8px;
+	font-size: 18px;
+	font-weight: 500;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	color: #333;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.worker-content {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.red-button {
+	background-color: #f44336 !important;
+	color: white !important;
+}
+
+mat-form-field {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.restaurant-settings-form mat-card-actions {
+	display: flex;
+	justify-content: space-between;
+	padding: 16px;
+}
+
+.status-toggle-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	padding: 0 15px;
+}
+
+mat-list-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

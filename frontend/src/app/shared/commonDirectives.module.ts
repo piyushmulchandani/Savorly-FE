@@ -3,34 +3,18 @@ import { CommonModule, CurrencyPipe, DatePipe, NgFor, NgIf, NgSwitch, NgSwitchCa
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Structural Directives
-export { NgIf } from '@angular/common';          // *ngIf
-export { NgFor } from '@angular/common';         // *ngFor
-export { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common'; // *ngSwitch
+export { NgIf } from '@angular/common';
+export { NgFor } from '@angular/common';
+export { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 
 // Pipes
-export { DatePipe } from '@angular/common';      // {{ date | date }}
-export { CurrencyPipe } from '@angular/common';  // {{ price | currency }}
+export { DatePipe } from '@angular/common';
 
 // Form Directives
-export { NgModel } from '@angular/forms';        // [(ngModel)]
+export { NgModel } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    // Structural Directives
-    NgIf,
-    NgFor,
-    NgSwitch, NgSwitchCase, NgSwitchDefault, CommonModule,
-    
-    // Pipes
-    DatePipe,
-    CurrencyPipe,
-    
-    // Forms
-    ReactiveFormsModule
-  ]
+	imports: [CommonModule, ReactiveFormsModule],
+	exports: [NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, CommonModule, CurrencyPipe, ReactiveFormsModule],
 })
-export class CommonDirectivesModule { }
+export class CommonDirectivesModule {}

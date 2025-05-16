@@ -1,0 +1,73 @@
+<div class="tables-container">
+	<!-- Filters section -->
+	<div class="filters-section mat-elevation-z1">
+		<mat-form-field appearance="outline">
+			<mat-label>Table Number</mat-label>
+			<input matInput type="number" [(ngModel)]="filters.tableNumber" (input)="loadTables()" />
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Status</mat-label>
+			<mat-select [(ngModel)]="filters.occupied" (selectionChange)="loadTables()">
+				<mat-option [value]="null">All</mat-option>
+				<mat-option [value]="true">Occupied</mat-option>
+				<mat-option [value]="false">Free</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Number of People</mat-label>
+			<input matInput type="number" [(ngModel)]="filters.numPeople" (input)="loadTables()" />
+		</mat-form-field>
+
+		<button mat-stroked-button (click)="clearFilters()">Clear Filters</button>
+
+		<!-- Admin actions -->
+		<div class="admin-actions" *ngIf="isAdmin">
+			<button mat-raised-button color="primary" (click)="openCreateTableDialog()">
+				<mat-icon>add</mat-icon>
+				Add Table
+			</button>
+			<button mat-raised-button color="warn" (click)="removeTable()">
+				<mat-icon>remove</mat-icon>
+				Remove Latest Table
+			</button>
+		</div>
+	</div>
+
+	<!-- Tables list -->
+	<div *ngIf="isLoading" class="loading-spinner">
+		<mat-spinner></mat-spinner>
+	</div>
+
+	<div class="tables-list" *ngIf="tables.length > 0">
+		<mat-card class="table-card" *ngFor="let table of tables" (click)="viewTable(table.id)">
+			<mat-card-content>
+				<div class="table-header">
+					<h2 class="table-number">Table #{{ table.tableNumber }}</h2>
+					<span class="status-badge" [ngClass]="getStatusClass(table.occupied)">
+						{{ table.occupied ? 'OCCUPIED' : 'FREE' }}
+					</span>
+				</div>
+
+				<div class="table-details">
+					<div *ngIf="table.occupied" class="detail-item">
+						<span class="label">Current Cost:</span>
+						<span class="value">{{ table.currentCost }}</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Capacity:</span>
+						<span class="value">{{ table.minPeople }} - {{ table.maxPeople }} people</span>
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+	<!-- Empty state -->
+	<div class="empty-state" *ngIf="!isLoading && tables.length === 0">
+		<mat-icon class="empty-icon">table_restaurant</mat-icon>
+		<h3>No tables found</h3>
+		<p>There are no tables matching your filters or no tables have been added yet.</p>
+	</div>
+</div>

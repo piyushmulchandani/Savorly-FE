@@ -1,0 +1,78 @@
+<div class="orders-container">
+	<!-- Filters section -->
+	<div *ngIf="!this.isTable" class="filters-section mat-elevation-z1">
+		<mat-form-field appearance="outline">
+			<mat-label>Order Type</mat-label>
+			<mat-select [(ngModel)]="filters.orderType" (ngModelChange)="loadOrders()">
+				<mat-option *ngFor="let type of orderTypes" [value]="type">
+					{{ type | capitalize : true }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-radio-group class="status-radio-group" [(ngModel)]="filters.completed" (ngModelChange)="loadOrders()">
+			<mat-radio-button [value]="null">All</mat-radio-button>
+			<mat-radio-button [value]="false">Pending</mat-radio-button>
+			<mat-radio-button [value]="true">Completed</mat-radio-button>
+		</mat-radio-group>
+
+		<button mat-stroked-button class="clear-btn" (click)="clearFilters()">Clear Filters</button>
+
+		<div class="actions">
+			<button mat-raised-button class="azure-btn" (click)="openCreateOrderDialog()">
+				<mat-icon>add</mat-icon>
+				Create Order
+			</button>
+		</div>
+	</div>
+
+	<!-- Orders list -->
+	<div *ngIf="isLoading" class="loading-spinner">
+		<mat-spinner></mat-spinner>
+	</div>
+
+	<div class="orders-list" [class.single-column]="isTable" *ngIf="orders.length > 0">
+		<div class="order-card" *ngFor="let order of orders">
+			<div class="order-header">
+				<div class="header-stack">
+					<h3 class="table-title">Table #{{ order.tableNumber }}</h3>
+					<span class="order-time">
+						<mat-icon>access_time</mat-icon>
+						{{ order.orderTime | date : 'shortTime' }}
+					</span>
+				</div>
+
+				<div class="stacked-meta">
+					<span class="order-type-badge">
+						<mat-icon>{{ order.type === 'RESTAURANT' ? 'restaurant' : 'delivery_dining' }}</mat-icon>
+					</span>
+					<span class="order-status" [ngClass]="order.completed ? 'completed' : 'pending'">
+						<mat-icon>{{ order.completed ? 'check_circle' : 'pending' }}</mat-icon>
+					</span>
+				</div>
+			</div>
+			<div class="order-products">
+				<h4>Products:</h4>
+				<ul class="product-list">
+					<li class="product-item" *ngFor="let product of order.products"><mat-icon>restaurant_menu</mat-icon> {{ product.name }}</li>
+				</ul>
+			</div>
+
+			<div class="order-actions">
+				<button mat-raised-button color="warn" class="action-button" (click)="cancelOrder(order.id)">
+					<mat-icon>cancel</mat-icon> Cancel Order
+				</button>
+				<button *ngIf="!order.completed" mat-raised-button color="primary" class="action-button" (click)="confirmOrder(order.id)">
+					<mat-icon>check_circle</mat-icon> Complete Order
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Empty state -->
+	<div class="empty-state" *ngIf="!isLoading && orders.length === 0">
+		<mat-icon class="empty-icon">restaurant_menu</mat-icon>
+		<h3>No orders found</h3>
+		<p>There are no orders matching your filters or no orders have been placed yet.</p>
+	</div>
+</div>

@@ -40,11 +40,7 @@ export class ReservationsComponent implements OnInit {
 		if (this.restaurantId !== undefined && !isNaN(this.restaurantId)) {
 			this.isRestaurant = true;
 		} else {
-			this.userService.getProfile().subscribe({
-				next: response => {
-					this.usernameFilter = response.username;
-				},
-			});
+			if (this.userService.userProfile) this.usernameFilter = this.userService.userProfile?.username;
 		}
 		this.setDisplayedColumns();
 		this.loadReservations();
