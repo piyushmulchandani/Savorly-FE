@@ -368,3 +368,92 @@
 	margin-bottom: 0;
 	white-space: pre-line;
 }
+
+@media (max-width: 480px) {
+	.restaurant-view-container {
+		width: 100%;
+		margin: 0 8px;
+		padding: 8px;
+	}
+
+	.restaurant-header {
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 20px;
+	}
+
+	.restaurant-image {
+		width: 100%;
+		height: auto;
+	}
+
+	.restaurant-info h1 {
+		font-size: 22px;
+		text-align: center;
+	}
+
+	.restaurant-meta {
+		flex-direction: column;
+		gap: 6px;
+		align-items: center;
+		text-align: center;
+	}
+
+	.fixed-bottom-button {
+		width: calc(100% - 24px);
+		font-size: 16px;
+		padding: 12px;
+	}
+
+	.product-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.product-info {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.product-info h4 {
+		font-size: 15px;
+		white-space: normal;
+	}
+
+	.contact-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.action-buttons {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.ownership-proof-info {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.approve-button,
+	.reject-button {
+		width: 100%;
+		text-align: center;
+	}
+
+	.section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+		margin: 20px 0 16px;
+	}
+
+	.status-message {
+		padding: 40px 16px;
+	}
+
+	.rejection-message {
+		padding: 12px;
+	}
+}

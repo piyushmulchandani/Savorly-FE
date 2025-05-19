@@ -29,7 +29,6 @@
 		<mat-tab-group *ngIf="isRestaurantStaff()" class="admin-nav-tabs" mat-align-tabs="center" animationDuration="300ms">
 			<mat-tab label="Overview">
 				<ng-template matTabContent>
-					<!-- Overview content loads here -->
 					<div class="restaurant-content">
 						<ng-container *ngTemplateOutlet="restaurantDetails"></ng-container>
 					</div>
@@ -37,7 +36,6 @@
 			</mat-tab>
 			<mat-tab label="Tables">
 				<ng-template matTabContent>
-					<!-- Tables management content -->
 					<div class="restaurant-content">
 						<app-tables *ngIf="restaurant" [restaurantId]="this.restaurant.id"></app-tables>
 					</div>
@@ -45,7 +43,6 @@
 			</mat-tab>
 			<mat-tab label="Orders">
 				<ng-template matTabContent>
-					<!-- Orders management content -->
 					<div class="restaurant-content">
 						<app-orders *ngIf="restaurant" [restaurantId]="this.restaurant.id"></app-orders>
 					</div>
@@ -53,7 +50,6 @@
 			</mat-tab>
 			<mat-tab label="Reservations">
 				<ng-template matTabContent>
-					<!-- Reservations content -->
 					<div class="restaurant-content">
 						<app-reservations [restaurantId]="this.restaurant?.id"></app-reservations>
 					</div>
@@ -61,7 +57,6 @@
 			</mat-tab>
 			<mat-tab label="Settings" *ngIf="isAdminOrRestaurantAdmin()">
 				<ng-template matTabContent>
-					<!-- Settings content (for admins only) -->
 					<div class="restaurant-content">
 						<app-restaurant-settings *ngIf="this.restaurant" [restaurant]="this.restaurant"></app-restaurant-settings>
 					</div>
@@ -69,7 +64,6 @@
 			</mat-tab>
 		</mat-tab-group>
 
-		<!-- Regular view for public users -->
 		<div *ngIf="!isRestaurantStaff()" class="restaurant-content">
 			<ng-container *ngTemplateOutlet="restaurantDetails"></ng-container>
 		</div>
@@ -166,7 +160,7 @@
 				</div>
 			</div>
 
-			<!-- Ownership proof section for REQUESTED restaurants -->
+			<!-- Ownership proof for REQUESTED restaurants -->
 			<div *ngIf="hasStatus(statuses.REQUESTED) && isAdminOrRestaurantAdmin()" class="ownership-proof-section">
 				<mat-divider></mat-divider>
 				<h2>Ownership Verification</h2>
@@ -187,7 +181,6 @@
 					</div>
 				</div>
 
-				<!-- Admin approval buttons -->
 				<div *ngIf="isAdmin()" class="approval-actions">
 					<button mat-raised-button class="approve-button" (click)="approveRestaurant()">
 						<mat-icon>check_circle</mat-icon>

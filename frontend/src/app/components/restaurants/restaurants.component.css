@@ -1,5 +1,5 @@
 .restaurants-page {
-	padding: 20px;
+	padding: 16px;
 }
 
 .filters-card {
@@ -11,10 +11,16 @@
 	display: flex;
 	gap: 12px;
 	margin-bottom: 0px;
+	flex-wrap: wrap;
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+	}
 }
 
 .filter-row mat-form-field {
 	flex: 1;
+	min-width: 100%;
 
 	.mat-form-field-wrapper {
 		padding-bottom: 0.5em;
@@ -68,24 +74,37 @@ mat-form-field {
 .filter-actions {
 	display: flex;
 	gap: 8px;
+	flex-wrap: wrap;
 
 	.wide-btn {
-		min-width: 200px;
-		padding: 0 16px;
-
-		width: 120px;
+		min-width: 100%;
 		justify-content: center;
 
 		mat-icon {
 			margin-right: 4px;
 		}
 	}
+
+	@media (min-width: 480px) {
+		.wide-btn {
+			min-width: 200px;
+			width: 120px;
+		}
+	}
 }
 
 .restaurants-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	gap: 20px;
+	grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+	gap: 16px;
+
+	@media (min-width: 500px) {
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	}
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	}
 }
 
 .restaurant-card {
@@ -109,32 +128,27 @@ mat-form-field {
 	align-items: center;
 	margin-right: 8px;
 	font-size: 1.2em;
+
+	mat-icon {
+		font-size: 16px;
+		height: 16px;
+		width: 16px;
+		margin-right: 4px;
+	}
 }
 
-.city-badge mat-icon {
-	font-size: 16px;
-	height: 16px;
-	width: 16px;
-	margin-right: 4px;
-}
-
-.loading-spinner {
-	display: flex;
-	justify-content: center;
-	padding: 40px;
-}
-
+.loading-spinner,
 .no-results {
 	text-align: center;
 	padding: 40px;
 	color: rgba(0, 0, 0, 0.54);
-}
 
-.no-results mat-icon {
-	font-size: 48px;
-	height: 48px;
-	width: 48px;
-	margin-bottom: 16px;
+	mat-icon {
+		font-size: 48px;
+		height: 48px;
+		width: 48px;
+		margin-bottom: 16px;
+	}
 }
 
 .reservation-filter {
@@ -177,6 +191,7 @@ mat-form-field {
 
 .filters-card {
 	padding-bottom: 0px;
+
 	.mat-expansion-panel {
 		box-shadow: none;
 		background: rgba(0, 120, 212, 0.05);
@@ -186,10 +201,12 @@ mat-form-field {
 				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 			}
 		}
+
 		.mat-expansion-panel-body {
 			padding: 0 16px 8px;
 		}
 	}
+
 	mat-card-content {
 		padding-bottom: 8px;
 	}
