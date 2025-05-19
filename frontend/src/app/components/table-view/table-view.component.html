@@ -29,7 +29,6 @@
 			</mat-card-header>
 
 			<mat-card-content>
-				<!-- Empty view for unoccupied tables -->
 				<div *ngIf="!table.occupied" class="unoccupied-container">
 					<div class="table-status available">
 						<mat-icon>check_circle</mat-icon>
@@ -49,7 +48,6 @@
 						<span>Currently Occupied</span>
 					</div>
 
-					<!-- Table Orders Component -->
 					<app-orders
 						*ngIf="table"
 						[restaurantId]="this.restaurantId"

@@ -49,7 +49,12 @@ export class ReservationDialogComponent implements OnInit {
 		if (this.reservationForm.get('date')?.invalid || this.reservationForm.get('people')?.invalid) return;
 
 		this.loading = true;
-		const date = this.formatDate(this.reservationForm.value.date);
+
+		const year = this.reservationForm.value.date.getFullYear();
+		const month = String(this.reservationForm.value.date.getMonth() + 1).padStart(2, '0');
+		const day = String(this.reservationForm.value.date.getDate()).padStart(2, '0');
+		const date = `${year}-${month}-${day}`;
+
 		const people = this.reservationForm.value.people;
 
 		this.reservationService.getAvailableTimes(this.data.restaurantId, date, people).subscribe({

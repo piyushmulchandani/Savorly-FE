@@ -63,9 +63,15 @@ export class ReservationsComponent implements OnInit {
 	loadReservations(): void {
 		const request: ReservationSearch = {
 			restaurantId: this.restaurantId,
-			date: this.dateFilter?.toISOString().split('T')[0],
 			username: this.usernameFilter,
 		};
+
+		if (this.dateFilter) {
+			const year = this.dateFilter.getFullYear();
+			const month = String(this.dateFilter.getMonth() + 1).padStart(2, '0');
+			const day = String(this.dateFilter.getDate()).padStart(2, '0');
+			request.date = `${year}-${month}-${day}`;
+		}
 
 		this.reservationService.getReservations(request).subscribe({
 			next: response => {

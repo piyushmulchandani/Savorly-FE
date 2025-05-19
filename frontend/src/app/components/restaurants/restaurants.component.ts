@@ -94,7 +94,7 @@ export class RestaurantsComponent implements OnInit {
 				this.cityOptions = [...new Set(this.restaurants.map(r => r.city))].sort();
 				this.isLoading = false;
 			},
-			error: err => {
+			error: () => {
 				this.snackBar.open('Error loading restaurants', 'Close', { duration: 3000 });
 				this.isLoading = false;
 			},

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../shared/material.module';
 import { CommonDirectivesModule } from '../../shared/commonDirectives.module';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CuisineType } from '../../interfaces/restaurant.interface';
 import { SavorlyRole } from '../../interfaces/user.interface';
 import { RestaurantService } from '../../services/restaurant.service';
 import { UserService } from '../../services/user.service';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 
 @Component({
 	selector: 'app-restaurant-registration',
-	imports: [MaterialModule, CommonDirectivesModule],
+	imports: [MaterialModule, CommonDirectivesModule, CapitalizePipe],
 	templateUrl: './restaurant-registration.component.html',
 	styleUrl: './restaurant-registration.component.css',
 })
@@ -74,11 +75,6 @@ export class RestaurantRegistrationComponent implements OnInit {
 	}
 
 	onSubmit(): void {
-		if (this.restaurantForm.invalid) {
-			this.markFormGroupTouched(this.restaurantForm);
-			return;
-		}
-
 		if (!this.selectedFile) {
 			this.snackBar.open('Please upload proof of restaurant ownership (PDF)', 'Close', {
 				duration: 5000,
@@ -105,16 +101,6 @@ export class RestaurantRegistrationComponent implements OnInit {
 					duration: 5000,
 				});
 			},
-		});
-	}
-
-	// Helper method to mark all form controls as touched to trigger validation
-	private markFormGroupTouched(formGroup: FormGroup): void {
-		Object.values(formGroup.controls).forEach(control => {
-			control.markAsTouched();
-			if ((control as any).controls) {
-				this.markFormGroupTouched(control as FormGroup);
-			}
 		});
 	}
 }
