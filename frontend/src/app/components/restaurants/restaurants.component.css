@@ -20,7 +20,11 @@
 
 .filter-row mat-form-field {
 	flex: 1;
-	min-width: 100%;
+	min-width: 200px;
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+	}
 
 	.mat-form-field-wrapper {
 		padding-bottom: 0.5em;

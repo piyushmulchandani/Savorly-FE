@@ -137,7 +137,7 @@ export class RestaurantViewComponent implements OnInit {
 		}
 
 		if (this.restaurant.status === 'REQUESTED') {
-			return this.isAdminOrRestaurantAdmin();
+			return this.isAdmin();
 		}
 
 		return false;
@@ -342,15 +342,10 @@ export class RestaurantViewComponent implements OnInit {
 		});
 	}
 
-	downloadProof(): void {
+	viewProofDocument(): void {
 		if (!this.restaurant || !this.restaurant.ownershipProofUrl) return;
 
-		const filename = this.restaurant.ownershipProofUrl.split('/').pop() || 'ownership_proof.pdf';
-
-		const a = document.createElement('a');
-		a.href = this.restaurant.ownershipProofUrl;
-		a.download = filename;
-		a.target = '_blank';
-		a.click();
+		// Just open in new tab since cross-origin download doesn't work
+		window.open(this.restaurant.ownershipProofUrl, '_blank');
 	}
 }

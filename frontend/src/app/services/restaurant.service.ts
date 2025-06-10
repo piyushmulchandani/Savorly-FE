@@ -15,8 +15,11 @@ export class RestaurantService {
 	createRestaurant(restaurantData: RestaurantCreation, file: File) {
 		const formData: FormData = new FormData();
 
-		formData.append('restaurant', JSON.stringify(restaurantData));
+		const restaurantBlob = new Blob([JSON.stringify(restaurantData)], {
+			type: 'application/json',
+		});
 
+		formData.append('restaurant', restaurantBlob);
 		formData.append('file', file);
 
 		return this._http.post(this.apiUrl, formData);

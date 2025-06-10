@@ -47,7 +47,7 @@
 					(click)="toggleProduct(product)">
 					<div class="product-info">
 						<div class="product-name">{{ product.name }}</div>
-						<div class="product-price">{{ product.price }}</div>
+						<div class="product-price">{{ product.price }}€</div>
 					</div>
 					<div class="product-actions" *ngIf="isProductSelected(product)">
 						<button type="button" mat-icon-button color="warn" (click)="removeOneProduct(product)">
@@ -78,12 +78,12 @@
 			<div class="selected-products-list">
 				<div class="selected-product-item" *ngFor="let product of selectedProducts">
 					<span class="product-name">{{ product.name }}</span>
-					<span class="product-price">{{ product.price.toFixed(2) }}</span>
+					<span class="product-price">{{ product.price }}€</span>
 				</div>
 			</div>
 			<div class="order-total">
 				<span class="total-label">Total:</span>
-				<span class="total-price">{{ getTotalPrice().toFixed(2) }}</span>
+				<span class="total-price">{{ getTotalPrice() }}€</span>
 			</div>
 
 			<mat-error *ngIf="productIdsFormArray.hasError('required') || productIdsFormArray.hasError('minLength')">

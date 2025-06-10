@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HelloComponent } from './components/hello/hello.component';
 import { authGuard } from './guards/auth.guard';
 import { RestaurantsComponent } from './components/restaurants/restaurants.component';
 import { RestaurantViewComponent } from './components/restaurant-view/restaurant-view.component';
@@ -9,7 +8,7 @@ import { UsersComponent } from './components/users/users.component';
 import { RestaurantRegistrationComponent } from './components/restaurant-registration/restaurant-registration.component';
 
 export const routes: Routes = [
-	{ path: 'hello', component: HelloComponent, canActivate: [authGuard] },
+	{ path: '', redirectTo: '/restaurants', pathMatch: 'full' },
 	{
 		path: 'restaurants',
 		component: RestaurantsComponent,

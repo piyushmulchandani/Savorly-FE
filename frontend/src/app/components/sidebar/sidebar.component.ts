@@ -12,13 +12,16 @@ import { AuthService } from '../../services/auth.service';
 	templateUrl: './sidebar.component.html',
 	styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 	isCollapsed = false;
 	Role = SavorlyRole;
 	restaurantId: number | undefined;
 
-	constructor(private userService: UserService, public authService: AuthService) {
-		if (userService.userProfile && userService.userProfile.restaurant) this.restaurantId = userService.userProfile?.restaurant?.id;
+	constructor(private userService: UserService, public authService: AuthService) {}
+
+	ngOnInit(): void {
+		if (this.userService.userProfile && this.userService.userProfile.restaurant)
+			this.restaurantId = this.userService.userProfile?.restaurant?.id;
 	}
 
 	toggleSidebar(): void {

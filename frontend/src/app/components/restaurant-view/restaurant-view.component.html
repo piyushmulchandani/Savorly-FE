@@ -129,7 +129,7 @@
 								<div *ngFor="let product of productsByCategory[category]" class="product-card">
 									<div class="product-info">
 										<h4>{{ product.name }}</h4>
-										<span class="product-price">{{ product.price }}</span>
+										<span class="product-price">{{ product.price }}€</span>
 										<button
 											*ngIf="isAdminOrRestaurantAdmin()"
 											mat-raised-button
@@ -172,7 +172,7 @@
 						</div>
 
 						<div class="download-section">
-							<button mat-flat-button (click)="downloadProof()"><mat-icon>download</mat-icon> Download Proof</button>
+							<button mat-flat-button (click)="viewProofDocument()"><mat-icon>eye</mat-icon> Download Proof</button>
 						</div>
 					</div>
 

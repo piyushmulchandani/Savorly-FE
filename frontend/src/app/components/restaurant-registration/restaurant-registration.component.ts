@@ -94,6 +94,7 @@ export class RestaurantRegistrationComponent implements OnInit {
 					duration: 5000,
 				});
 				this.router.navigate(['/']);
+				this.userService.getProfile().subscribe();
 			},
 			error: error => {
 				this.isSubmitting = false;
